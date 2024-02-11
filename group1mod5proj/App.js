@@ -3,7 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import BrowsingScreen from './components/BrowsingScreen';
 
 export default function App() {
+
   return (
+    
     <View style={styles.container}>
       <BrowsingScreen />
     </View>
