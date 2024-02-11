@@ -11,11 +11,20 @@
   "dependencies": {
     "expo": "~50.0.6",
     "expo-status-bar": "~1.11.1",
+    "movie-trailer": "^3.2.2",
     "react": "18.2.0",
-    "react-native": "0.73.2"
+    "react-native": "0.73.2",
+    "react-native-swipe-up-down": "^1.2.0",
+    "react-native-swiper": "^1.6.0",
+    "react-native-webview": "^13.7.1",
+    "react-native-youtube-iframe": "^2.3.0",
+    "react-player": "^2.14.1",
+    "react-youtube": "^10.1.0",
+    "swiper": "^11.0.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "metro": "^0.80.5"
   },
   "private": true
 }
