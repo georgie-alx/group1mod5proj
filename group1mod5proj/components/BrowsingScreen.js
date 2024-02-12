@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import Swiper from 'react-native-swiper'; 
 import Synopsis from './Synopsis';
 import Trailer from './Trailer';
+import TickCross from './TickCross';
 import SwipeUpDown from 'react-native-swipe-up-down'
 import * as CONSTANT from './MockData';
 
@@ -32,7 +33,7 @@ const BrowsingScreen = () => {
               <Trailer playing={playing} onStateChange={onStateChange} togglePlaying={togglePlaying} id={item["url"]}/> 
               <Text>{item['title']} {item['year']}</Text>
 
-              {/*<TickCross /> Elly*/}
+              <TickCross />
               <SwipeUpDown 
                 iconSize={30}
                 itemMini={<Text>Swipe up here to see more movie info</Text>}
