@@ -4,7 +4,10 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 
 const Trailer = (props) =>{
     return (
-        <View>
+        <View style={styles.container}>
+            {/*Adds spacing*/}
+            {/* <View style={{height: 500, width: 50, backgroundColor: 'red'}}></View> */}
+            
             <YoutubePlayer
                 height={300}
                 width={300}
@@ -15,5 +18,14 @@ const Trailer = (props) =>{
         </View>
     )
 } 
+
+const styles = StyleSheet.create({
+    container: {
+      /*backgroundColor: 'yellow',*/
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingTop: 50,
+    },
+});
 
 export default Trailer;
