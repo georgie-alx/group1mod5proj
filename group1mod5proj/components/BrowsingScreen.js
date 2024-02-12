@@ -1,3 +1,13 @@
+/*
+Elly's notes 12/2/2024:
+- Need to implement handlers for tick and cross
+- Shift video a bit lower down
+- Integrate API?
+- Randomize movie list
+- Autoplay the trailer
+*/
+
+
 // BrowsingScreen.js
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
@@ -23,49 +33,43 @@ const BrowsingScreen = () => {
   data = CONSTANT['MOCKDATA']
 
   return (
-    <View >
+    <View style={{backgroundColor: '#2A1A1D'}}>
 
-      {/*Trailer Component*/}
       <Swiper showsButton={false} horizontal={true}>
         {data.map((item, i) => {
           return(
             <View key={i}>
+              {/*Trailer Component*/}
               <Trailer playing={playing} onStateChange={onStateChange} togglePlaying={togglePlaying} id={item["url"]}/> 
-              <Text>{item['title']} {item['year']}</Text>
-
+              {/*Movie Title and Year*/}
+              <Text style={styles.title}>{item['title']} ({item['year']})</Text>
               <TickCross />
+              {/*Synopsis*/}
               <SwipeUpDown 
                 iconSize={30}
-                itemMini={<Text>Swipe up here to see more movie info</Text>}
+                itemMini={<Text style={styles.text}>Swipe up here to see more movie info</Text>}
                 itemFull={<Synopsis genre={item['genre']} plot={item['plot']} cast={item['cast']}/>}
               />
-                {/* <Synopsis genre={item['genre']} plot={item['plot']} cast={item['cast']}/> */}
-
-
-
             </View>
           )
         })}
       </Swiper>
 
-
-      {/* <TickCross /> Elly*/}
-      {/* <Synopsis genre={'genre name'} plot={'plot bla blah'} cast={'actor 1, actor 2'}/> */}
       {/*<Menu /> Sing Hui's */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
+  title: {
+    textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
   },
+  text: {
+    color: '#fff',
+  }
 });
 
 export default BrowsingScreen;
