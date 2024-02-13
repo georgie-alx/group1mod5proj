@@ -1,6 +1,8 @@
 /*
 Elly's notes 12/2/2024:
-- Need to implement handlers for tick and cross
+- integrate with Georgie's bit (useContext?)
+- improve swiping (Anu)
+- integrate with Sing's Menu
 - Shift video a bit lower down
 - Integrate API?
 - Randomize movie list
@@ -9,7 +11,7 @@ Elly's notes 12/2/2024:
 
 
 // BrowsingScreen.js
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import Swiper from 'react-native-swiper'; 
 import Synopsis from './Synopsis';
@@ -19,6 +21,7 @@ import SwipeUpDown from 'react-native-swipe-up-down'
 import * as CONSTANT from './MockData';
 
 const BrowsingScreen = () => {
+  
   const [ playing, setPlaying ] = useState(false);
   const onStateChange = useCallback((state) => {
       if (state === 'ended'){
@@ -30,12 +33,23 @@ const BrowsingScreen = () => {
       setPlaying((prev) => !prev);
   }, []);
 
+  const swiperRef = useRef(null);
+  const handleSwipe = useCallback((direction) => {
+    if (swiperRef.current) {
+      if (direction === 'left') {
+        swiperRef.current.scrollBy(-1, true);
+      } else if (direction === 'right') {
+        swiperRef.current.scrollBy(1, true);
+      }
+    }
+  }, []);
+
   data = CONSTANT['MOCKDATA']
 
   return (
     <View style={{backgroundColor: '#2A1A1D'}}>
 
-      <Swiper showsButton={false} horizontal={true}>
+      <Swiper showsButton={false} horizontal={true} ref={swiperRef}>
         {data.map((item, i) => {
           return(
             <View key={i}>
@@ -43,7 +57,7 @@ const BrowsingScreen = () => {
               <Trailer playing={playing} onStateChange={onStateChange} togglePlaying={togglePlaying} id={item["url"]}/> 
               {/*Movie Title and Year*/}
               <Text style={styles.title}>{item['title']} ({item['year']})</Text>
-              <TickCross />
+              <TickCross onSwipe={handleSwipe} />
               {/*Synopsis*/}
               <SwipeUpDown 
                 iconSize={30}

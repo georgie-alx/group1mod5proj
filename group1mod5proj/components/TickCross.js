@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const TickCross = () => {
+const TickCross = ( {onSwipe} ) => {
   const handleLike = () => {
     // Implement your like functionality here
     console.log('Liked');
@@ -14,11 +14,11 @@ const TickCross = () => {
 
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity onPress={handleDislike} style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => onSwipe('left')}>
         <Text style={styles.buttonText}>❌</Text>
       </TouchableOpacity>
       <View style={styles.buttonSpace} />
-      <TouchableOpacity onPress={handleLike} style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => onSwipe('right')}>
         <Text style={styles.buttonText}>✔️</Text>
       </TouchableOpacity>
     </View>
