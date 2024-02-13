@@ -1,10 +1,9 @@
 import { Text, View, Image, StyleSheet } from 'react-native';
 import React, { Component } from 'react';
-import MenuLogo from '../assets/Movie_Tinder.png';
+import MenuLogo from '../assets/Movie_Tinder.svg';
 import RN from 'react-native';
 
-import { Menu, MenuOptions, MenuOption, MenuTrigger,} from 'react-native-popup-menu';
-import { SpeedDial } from '@rneui/themed';
+import { SpeedDial, Dialog, CheckBox } from '@rneui/themed';
 import { FAB } from "@rneui/base";
 
 const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
@@ -12,24 +11,30 @@ const SCREEN_WIDTH = RN.Dimensions.get('window').width;
 
 export default function NavigationMenu() {
     const [open, setOpen] = React.useState(false);
+    const [visible2, setVisible2] = React.useState(false);
+    const [visible5, setVisible5] = React.useState(false);
+    const [checked, setChecked] = React.useState(1);
+    const toggleDialog2 = () => {setVisible2(!visible2);};
+    const toggleDialog5 = () => {setVisible5(!visible5);};
 
   return (
+    <>
     <SpeedDial
     isOpen={open}
     icon={{name: 'menu', color: '#fff', style: 'styles.menulogo'}}
-    // style={styles.menulogo}
     openIcon={{ name: 'close', color: '#fff' }}
     onOpen={() => setOpen(!open)}
     onClose={() => setOpen(!open)}
+    color="#fcb649"
   >
     {/* <SpeedDial.Action
       icon={{ name: 'add', color: '#fff' }}
       title="Add"
-      onPress={() => console.log('Add Something')}
+      onPress={() => alert('Add Something')}
     />
     <SpeedDial.Action
       icon={{ name: 'delete', color: '#fff' }}
-      title="Delete"
+    //   title="Delete"
       onPress={() => console.log('Delete Something')}
     /> */}
     <FAB
@@ -38,22 +43,25 @@ export default function NavigationMenu() {
       size="small"
       Small Size
       overlayColor="#454545"
-      title="Genre"
-      onPress={() => console.log('Genre..')} />
+      color="#fcb649"
+      title="Genres"
+      onPress={toggleDialog5} />
      <FAB
       style={{ width: "200%", margin: 20 }}
       placement="left"
       size="small"
       Small Size
       overlayColor="#454545"
+      color="#fcb649"
       title="My Saved"
-      onPress={() => console.log('My Saved..')} />
+      onPress={() => alert('Navigating to My Saved page..')} />
     <FAB
       style={{ width: "250%", margin: 20 }}
       placement="left"
       size="small"
       Small Size
       overlayColor="#454545"
+      color="#fcb649"
       title="My Account Settings"
       onPress={() => console.log('My Account Settings..')} />
     <FAB
@@ -62,12 +70,55 @@ export default function NavigationMenu() {
       size="small"
       Small Size
       overlayColor="#454545"
+      color="#fcb649"
       title="Log off"
-      onPress={() => console.log('Logging off..')} />
+      onPress={toggleDialog2} />
   </SpeedDial>
+  {/* Genre Selection */}
+  <Dialog
+      isVisible={visible5}
+      onBackdropPress={toggleDialog5}
+    >
+      <Dialog.Title title="Select Genre Preference"/>
+      {['Comedy', 'Romance', 'Horror'].map((l, i) => (
+        <CheckBox
+          key={i}
+          title={l}
+          containerStyle={{ backgroundColor: 'white', borderWidth: 0 }}
+          checkedIcon="dot-circle-o"
+          uncheckedIcon="circle-o"
+          checked={checked === i + 1}
+          onPress={() => setChecked(i + 1)}
+        />
+      ))}
+
+      <Dialog.Actions>
+        <Dialog.Button
+          title="CONFIRM"
+          onPress={() => {
+            console.log(`Option ${checked} was selected!`);
+            toggleDialog5();
+          }}
+        />
+        <Dialog.Button title="CANCEL" onPress={toggleDialog5} />
+      </Dialog.Actions>
+    </Dialog>
+    {/* Logging off */}
+  <Dialog
+  isVisible={visible2}
+  onBackdropPress={toggleDialog2}
+>
+  <Dialog.Title title="Alert"/>
+  <Text>Are you sure about logging off?</Text>
+  <Dialog.Actions>
+    <Dialog.Button title="Yes" onPress={() => {setVisible2(!visible2); setOpen(!open); alert('Logging off now...');}}/>
+    <Dialog.Button title="No" onPress={() => {setVisible2(!visible2); setOpen(!open)}}/>
+  </Dialog.Actions>
+</Dialog>
+{/* <TouchableOpacity onPress={() => { this.onSubmit(); this.props.navigation.navigate('NextScreen') }}> */}
+</>
   )
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -86,33 +137,5 @@ const styles = StyleSheet.create({
       top: (SCREEN_HEIGHT * 0.7)/2,
       left: (SCREEN_WIDTH * 0.6)/2,
       alignContent: 'center',
-    },
-    input: {
-      height: 40,
-      width: 250,
-      margin: 10,
-      borderWidth: 1,
-      padding: 10,
-    },
-  });
-  
-// function ExampleMenu() {
-//   return (
-//     <View>
-//         {/* Below is from react-native-popup-menu */}
-//         <Menu>
-//             <MenuTrigger><Image style={styles.menulogo} source={MenuLogo} /></MenuTrigger>
-//                 <MenuOptions>
-//                     <MenuOption onSelect={() => alert(`Comedy, Romance, Horror`)} text='Genre' />
-//                     <MenuOption onSelect={() => alert(`Navigation to My Saved`)} text='My Saved' />
-//                     <MenuOption onSelect={() => alert(`Navigation to My Account Settings`)} text='My Account Settings' />
-//                     <MenuOption onSelect={() => alert(`Log Out`)} text='Log Out' />
-//                     {/* <MenuOption onSelect={() => alert(`Delete`)} >
-//                     <Text style={{color: 'red'}}>Delete</Text>
-//                     </MenuOption>
-//                     <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' /> */}
-//                 </MenuOptions>
-//         </Menu>
-//       </View>
-//   )
-// }
+    }
+  })
