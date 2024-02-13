@@ -1,26 +1,73 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import NavigationMenu from './components/NavigationMenu';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Button } from "react-native";
 
-import { MenuProvider } from 'react-native-popup-menu';
+// Routing
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import HomeScreen from "./components/HomeScreen";
+import Login from "./screens/Login";
+import SavedMoviesScreen from "./components/SavedMoviesScreen";
+import BrowsingScreen from "./components/BrowsingScreen.js";
+import NavigationMenu from "./components/NavigationMenu";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <MenuProvider>
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-      <NavigationMenu />
-    </View>
-    </MenuProvider>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={({ navigation }) => ({
+              headerShown: false, // Hide the navigation header
+            })}
+          />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              headerShown: false, // Hide the navigation header
+            })}
+          />
+          <Stack.Screen
+            name="NavMenu"
+            component={NavigationMenu}
+            // options={{ headerShown: false }}
+            options={({ navigation }) => ({
+              headerShown: false, // Hide the navigation header
+            })}
+          />
+          <Stack.Screen
+            name="SavedMoviesScreen"
+            component={SavedMoviesScreen}
+            // options={{ headerShown: false }}
+            options={({ navigation }) => ({
+              headerShown: false, // Hide the navigation header
+            })}
+          />
+          <Stack.Screen
+            name="BrowsingScreen"
+            component={BrowsingScreen}
+            // options={{ headerShown: false }}
+            options={({ navigation }) => ({
+              headerShown: false, // Hide the navigation header
+            })}
+          />
+        </Stack.Navigator>
+        <NavigationMenu />
+      </NavigationContainer>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
