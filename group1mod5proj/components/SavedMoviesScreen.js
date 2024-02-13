@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, useCallback, useRef } from "react";
 import {
   View,
   Text,
@@ -6,9 +6,17 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Modal,
+  Button,
+  ScrollView,
 } from "react-native";
 import { useSavedMovies } from "./context/savedMovies";
 import { Ionicons } from "@expo/vector-icons";
+import { Dimensions } from "react-native";
+// import { WebView } from "react-native-webview";
+// import YoutubePlayer from "react-native-youtube-iframe";
+
+const windowHeight = Dimensions.get("window").height;
 
 const extractVideoId = (url) => {
   const videoIdRegex =
@@ -17,9 +25,97 @@ const extractVideoId = (url) => {
   return match ? match[1] : null;
 };
 
+const MovieDetailsModal = ({ visible, movie, onClose }) => {
+  const getImageSource = (url) => {
+    const videoId = extractVideoId(url);
+    return { uri: `https://img.youtube.com/vi/${videoId}/0.jpg` };
+  };
+
+  if (!movie) {
+    // If movie is null, return null or some other placeholder component
+    return null;
+  }
+
+  // const [playing, setPlaying] = useState(false);
+
+  // const onPlayStateChange = useCallback((state) => {
+  //   if (state === "ended") {
+  //     setPlaying(false);
+  //   }
+  // }, []);
+
+  // const togglePlaying = useCallback(() => {
+  //   setPlaying((prev) => !prev);
+  // }, []);
+
+  // const renderwebview = () => {
+  //   if (playing) {
+  //     return (
+  //       <WebView
+  //         style={styles.styleCode}
+  //         javaScriptEnabled={true}
+  //         domStorageEnabled={true}
+  //         source={extractVideoId(movie.url)}
+  //       />
+  //     );
+  //   } else {
+  //     return (
+  //       <TouchableOpacity onPress={() => setPlaying(true)}>
+  //         <Image source={getImageSource(movie.url)} style={styles.modalImage} />
+  //       </TouchableOpacity>
+  //     );
+  //   }
+  // };
+
+  return (
+    <Modal visible={visible} animationType="slide">
+      <ScrollView>
+        <View
+          style={[
+            styles.modalContainer,
+            { minHeight: windowHeight, backgroundColor: "#FEE9C6" },
+          ]}
+        >
+          {/* {renderwebview()} */}
+          {/* <View>
+            <YoutubePlayer
+              height={300}
+              play={playing}
+              videoId={extractVideoId(movie.url)}
+              onChangeState={onPlayStateChange}
+            />
+          </View> */}
+          {/* <Button title={playing ? "pause" : "play"} onPress={togglePlaying} /> */}
+          <Image source={getImageSource(movie.url)} style={styles.modalImage} />
+
+          <Text style={styles.modalHeading}>{movie.title}</Text>
+          <View style={styles.details}>
+            <Text style={styles.detail}>
+              <Text style={{ fontWeight: "bold" }}>Genre:</Text> {movie.genre}
+            </Text>
+            <Text style={styles.detail}>
+              <Text style={{ fontWeight: "bold" }}>Year:</Text> {movie.year}
+            </Text>
+            <Text style={styles.detail}>
+              <Text style={{ fontWeight: "bold" }}>Cast:</Text> {movie.cast}
+            </Text>
+            <Text style={styles.detail}>
+              <Text style={{ fontWeight: "bold" }}>Description:</Text>{" "}
+              {movie.plot}
+            </Text>
+          </View>
+          <Button title="Close" onPress={onClose} />
+        </View>
+      </ScrollView>
+    </Modal>
+  );
+};
+
 const SavedMoviesScreen = () => {
   // Use the custom hook to access the saved movies list
   const { savedMovies, deleteMovie } = useSavedMovies();
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Function to generate image source based on YouTube video URL
   const getImageSource = (url) => {
@@ -27,22 +123,34 @@ const SavedMoviesScreen = () => {
     return { uri: `https://img.youtube.com/vi/${videoId}/0.jpg` };
   };
 
+  const openModal = (item) => {
+    setSelectedMovie(item);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setSelectedMovie(null);
+    setModalVisible(false);
+  };
+
   // Render individual movie item
   const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Image source={getImageSource(item.url)} style={styles.image} />
-      <View style={styles.details}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.detail}>Genre: {item.genre}</Text>
-        <Text style={styles.detail}>Year: {item.year}</Text>
+    <TouchableOpacity onPress={() => openModal(item)}>
+      <View style={styles.card}>
+        <Image source={getImageSource(item.url)} style={styles.image} />
+        <View style={styles.details}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.detail}>Genre: {item.genre}</Text>
+          <Text style={styles.detail}>Year: {item.year}</Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => deleteMovie(item.id)}
+          style={styles.deleteButton}
+        >
+          <Ionicons name="trash-outline" size={24} color="red" />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        onPress={() => deleteMovie(item.id)}
-        style={styles.deleteButton}
-      >
-        <Ionicons name="trash-outline" size={24} color="red" />
-      </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -53,6 +161,11 @@ const SavedMoviesScreen = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContent}
+      />
+      <MovieDetailsModal
+        visible={modalVisible}
+        movie={selectedMovie}
+        onClose={closeModal}
       />
     </View>
   );
@@ -78,9 +191,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   detail: {
-    fontSize: 16,
+    fontSize: 20,
     marginBottom: 5,
   },
+
   listContent: {
     flexGrow: 1,
   },
@@ -101,7 +215,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: 100,
+    width: 120,
     height: 100,
     marginRight: 20,
     borderRadius: 10,
@@ -109,11 +223,27 @@ const styles = StyleSheet.create({
   details: {
     flex: 1, // Take remaining space
   },
-  item: {
-    backgroundColor: "#f9c2ff",
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    backgroundColor: "#FEE9C6",
+  },
+  modalImage: {
+    marginTop: 40,
+    width: 350,
+    height: 200,
+    marginRight: 20,
+    borderRadius: 10,
+  },
+  modalHeading: {
+    fontSize: 40,
+    fontWeight: "bold",
+    marginBottom: 20,
+    marginTop: 50,
+    textAlign: "center",
+    color: "#2A1A1D",
   },
 });
 
