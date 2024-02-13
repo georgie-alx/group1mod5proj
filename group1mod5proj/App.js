@@ -1,20 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import SavedMoviesScreen from "./components/SavedMoviesScreen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-export default function App() {
+import { SavedMoviesProvider } from "./components/context/savedMovies";
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    // Wrap your app with the SavedMoviesProvider
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    <SavedMoviesProvider>
+      <SavedMoviesScreen />
+    </SavedMoviesProvider>
+  );
+};
+
+export default App;
