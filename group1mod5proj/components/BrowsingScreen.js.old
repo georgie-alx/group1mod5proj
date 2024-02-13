@@ -49,7 +49,27 @@ const BrowsingScreen = () => {
 
   return (
     <View style={{backgroundColor: '#2A1A1D'}}>
-      <DragScreenSelection data={data} />
+
+      <DragScreenSelection />
+      {/* <Swiper showsButton={false} horizontal={true} ref={swiperRef}>
+        {data.map((item, i) => {
+          return(
+            <View key={i}>
+              {/*Trailer Component*/}
+              <Trailer playing={playing} onStateChange={onStateChange} togglePlaying={togglePlaying} id={item["url"]}/> 
+              {/*Movie Title and Year*/}
+              <Text style={styles.title}>{item['title']} ({item['year']})</Text>
+              <TickCross onSwipe={handleSwipe} />
+              {/*Synopsis*/}
+              <SwipeUpDown 
+                iconSize={30}
+                itemMini={<Text style={styles.text}>Swipe up here to see more movie info</Text>}
+                itemFull={<Synopsis genre={item['genre']} plot={item['plot']} cast={item['cast']}/>}
+              />
+            </View>
+          )
+        })}
+      </Swiper> */}
 
       {/*<Menu /> Sing Hui's */}
     </View>
