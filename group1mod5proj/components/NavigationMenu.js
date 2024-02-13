@@ -14,12 +14,10 @@ export default function NavigationMenu() {
     const [open, setOpen] = React.useState(false);
 
   return (
-    <View>
-        <Text>NavigationMenu</Text>
-        <SpeedDial
+    <SpeedDial
     isOpen={open}
-    icon={{name: 'menu', color: '#fff'}}
-    style={styles.menulogo}
+    icon={{name: 'menu', color: '#fff', style: 'styles.menulogo'}}
+    // style={styles.menulogo}
     openIcon={{ name: 'close', color: '#fff' }}
     onOpen={() => setOpen(!open)}
     onClose={() => setOpen(!open)}
@@ -67,10 +65,6 @@ export default function NavigationMenu() {
       title="Log off"
       onPress={() => console.log('Logging off..')} />
   </SpeedDial>
-        {/* <Image style={styles.menulogo} source={MenuLogo} /> */}
-
-        {/* Below is from react-native-popup-menu */}
-      </View>
   )
 }
 
