@@ -1,7 +1,7 @@
 /*
 - get video to play -anu
 - styling (colour and alignment) - elly
-- link tick and cross buttons to handler - elly
+- link tick and cross buttons to handler - elly - done!
 */
 
 import React, { useRef, useState, useCallback } from 'react';
@@ -104,11 +104,12 @@ const DragScreenSelection = ( {data} ) => {
           {...panResponders[index].panHandlers}
         >
           <Trailer playing={playing} onStateChange={onStateChange} togglePlaying={togglePlaying} id={movie.url}/>
-          <Text>{movie.title} ({movie.year})</Text>
+          <Text style={styles.title}>{movie.title} ({movie.year})</Text>
           <TickCross swipe={(direction) => swipe(direction, index)} />
-          <SwipeUpDown 
+          <SwipeUpDown
+                swipeHeight={1} 
                 iconSize={30}
-                itemMini={<Text style={styles.text}>Swipe up here to see more movie info</Text>}
+                itemMini={<Text style={styles.miniItem}>▲ MORE</Text>}
                 itemFull={<Synopsis genre={movie.genre} plot={movie.plot} cast={movie.cast}/>}
               />
         </Animated.View>
@@ -128,13 +129,24 @@ const styles = StyleSheet.create({
   card: {
     width: SCREEN_WIDTH * 1,
     height: SCREEN_WIDTH * 2,
-    backgroundColor: '#fff',
+    backgroundColor: '#2A1A1D',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#ddd',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  miniItem: {
+    backgroundColor: '#FCB649',
+    height: 100,
+    textAlign: 'center',
   },
 });
 
