@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 const SCREEN_HEIGHT = RN.Dimensions.get("window").height;
 const SCREEN_WIDTH = RN.Dimensions.get("window").width;
 
-export default function NavigationMenu() {
+export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
   const navigation = useNavigation();
   const [open, setOpen] = React.useState(false);
   const [logoffVisible, setLogoffVisible] = React.useState(false);
@@ -76,7 +76,7 @@ export default function NavigationMenu() {
           overlayColor="#454545"
           color="#fcb649"
           title="Home"
-          onPress={() => {navigation.navigate('BrowsingScreen'); setOpen(!open);}}
+          onPress={() => {navigation.navigate('BrowsingScreen', {genreSelected: checked}); setOpen(!open);}}
         />
         <FAB
           style={{ width: "200%", margin: 20 }}
@@ -117,19 +117,23 @@ export default function NavigationMenu() {
             uncheckedIcon="circle-o"
             // checked={checked === i + 1}
             // onPress={() => setChecked(i + 1)}
-            checked={checked.includes(i)}
-            onPress={() => handleToggleCheckbox(i)}
+            checked={checked.includes(l)}
+            onPress={() => handleToggleCheckbox(l)}
           />
         ))}
         <Dialog.Actions>
           <Dialog.Button
             title="CONFIRM"
-            onPress={() => {
-              console.log(`Option ${checked} was selected!`);
-              toggleGenreDialog();
-            }}
+            // onPress={() => {
+            //   console.log(`Option ${checked} was selected!`);
+            //   toggleGenreDialog();
+            // }}
+            onPress={() => {navigation.navigate('BrowsingScreen', {genreSelected: checked});
+            console.log(`${checked} was selected!`);
+            toggleGenreDialog();
+            setOpen(!open);}}
           />
-          <Dialog.Button title="CANCEL" onPress={toggleGenreDialog} />
+          <Dialog.Button title="CANCEL" onPress={() => {toggleGenreDialog(); setOpen(!open);}} />
         </Dialog.Actions>
       </Dialog>
 
@@ -144,6 +148,7 @@ export default function NavigationMenu() {
               setLogoffVisible(!logoffVisible);
               setOpen(!open);
               alert("Logging off now...");
+              setIsLoggedIn(!isLoggedIn);
               navigation.navigate('Login');
             }}
           />

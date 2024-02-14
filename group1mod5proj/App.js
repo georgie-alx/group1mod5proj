@@ -1,3 +1,4 @@
+import React, { Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
 
@@ -14,50 +15,61 @@ import NavigationMenu from "./components/NavigationMenu";
 const Stack = createStackNavigator();
 
 export default function App() {
+  // const isLoggedIn = true;
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={({ navigation }) => ({
-              headerShown: false, // Hide the navigation header
-            })}
-          />
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={({ navigation }) => ({
-              headerShown: false, // Hide the navigation header
-            })}
-          />
-          <Stack.Screen
-            name="NavMenu"
-            component={NavigationMenu}
-            // options={{ headerShown: false }}
-            options={({ navigation }) => ({
-              headerShown: false, // Hide the navigation header
-            })}
-          />
-          <Stack.Screen
-            name="SavedMoviesScreen"
-            component={SavedMoviesScreen}
-            // options={{ headerShown: false }}
-            options={({ navigation }) => ({
-              headerShown: false, // Hide the navigation header
-            })}
-          />
-          <Stack.Screen
-            name="BrowsingScreen"
-            component={BrowsingScreen}
-            // options={{ headerShown: false }}
-            options={({ navigation }) => ({
-              headerShown: false, // Hide the navigation header
-            })}
-          />
+          {!isLoggedIn ? (
+            // Screens for not logged in users
+            <Stack.Group>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={({ navigation }) => ({
+                  headerShown: false, // Hide the navigation header
+                })}
+              />
+            </Stack.Group>
+          ) : (
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={({ navigation }) => ({
+                  headerShown: false, // Hide the navigation header
+                })}
+              />
+              <Stack.Screen
+                name="NavMenu"
+                component={NavigationMenu}
+                // options={{ headerShown: false }}
+                options={({ navigation }) => ({
+                  headerShown: false, // Hide the navigation header
+                })}
+              />
+              <Stack.Screen
+                name="SavedMoviesScreen"
+                component={SavedMoviesScreen}
+                // options={{ headerShown: false }}
+                options={({ navigation }) => ({
+                  headerShown: false, // Hide the navigation header
+                })}
+              />
+              <Stack.Screen
+                name="BrowsingScreen"
+                component={BrowsingScreen}
+                // options={{ headerShown: false }}
+                options={({ navigation }) => ({
+                  headerShown: false, // Hide the navigation header
+                })}
+              />
+            </Stack.Group>
+          )}
         </Stack.Navigator>
-        <NavigationMenu />
+        { isLoggedIn && (<NavigationMenu setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />)}
       </NavigationContainer>
     </>
   );
