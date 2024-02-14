@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SavedMoviesProvider } from "./components/context/savedMovies";
+
 // Routing
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -13,6 +16,16 @@ import BrowsingScreen from "./components/BrowsingScreen.js";
 import NavigationMenu from "./components/NavigationMenu";
 
 const Stack = createStackNavigator();
+
+const SavedMovies = () => {
+  return (
+    // Wrap your app with the SavedMoviesProvider
+
+    <SavedMoviesProvider>
+      <SavedMoviesScreen />
+    </SavedMoviesProvider>
+    )
+}
 
 export default function App() {
   // const isLoggedIn = true;
@@ -52,7 +65,7 @@ export default function App() {
               />
               <Stack.Screen
                 name="SavedMoviesScreen"
-                component={SavedMoviesScreen}
+                component={SavedMovies}
                 // options={{ headerShown: false }}
                 options={({ navigation }) => ({
                   headerShown: false, // Hide the navigation header
@@ -73,13 +86,4 @@ export default function App() {
       </NavigationContainer>
     </>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+};
