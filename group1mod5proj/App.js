@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SavedMoviesProvider } from "./components/context/savedMovies";
+
 // Routing
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -20,6 +23,7 @@ export default function App() {
 
   return (
     <>
+    <SavedMoviesProvider> {/* Wrap app with the SavedMoviesProvider */}
       <NavigationContainer>
         <Stack.Navigator>
           {!isLoggedIn ? (
@@ -71,6 +75,7 @@ export default function App() {
         </Stack.Navigator>
         { isLoggedIn && (<NavigationMenu setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />)}
       </NavigationContainer>
+    </SavedMoviesProvider>
     </>
   );
 }
