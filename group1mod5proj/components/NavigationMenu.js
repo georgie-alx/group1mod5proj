@@ -24,7 +24,7 @@ export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
   };
 
   // Genre selection
-  const [checked, setChecked] = React.useState([]);
+  const [checked, setChecked] = React.useState(["Comedy", "Romance", "Horror"]);
   const handleToggleCheckbox = (index) => {
     if (checked.includes(index)) {
       // Item already checked, remove it from the array
