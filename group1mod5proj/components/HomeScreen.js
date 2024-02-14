@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation }) {
       />
       <Button
         title="Go to BrowsingScreen"
-        onPress={() => navigation.navigate("BrowsingScreen")}
+        onPress={() => navigation.navigate("BrowsingScreen", { genreSelected: ["Comedy", "Romance", "Horror"]},)}
       />
     </View>
   );

@@ -1,12 +1,12 @@
 import { Text, View, Image, StyleSheet } from "react-native";
 import React, { Component } from "react";
-import MenuLogo from "../assets/Movie_Tinder.svg";
+// import MenuLogo from "../assets/Movie_Tinder.svg";
 import RN from "react-native";
 
 import { SpeedDial, Dialog, CheckBox } from "@rneui/themed";
 import { FAB } from "@rneui/base";
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const SCREEN_HEIGHT = RN.Dimensions.get("window").height;
 const SCREEN_WIDTH = RN.Dimensions.get("window").width;
@@ -76,7 +76,10 @@ export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
           overlayColor="#454545"
           color="#fcb649"
           title="Home"
-          onPress={() => {navigation.navigate('BrowsingScreen', {genreSelected: checked}); setOpen(!open);}}
+          onPress={() => {
+            navigation.navigate("BrowsingScreen", { genreSelected: checked });
+            setOpen(!open);
+          }}
         />
         <FAB
           style={{ width: "200%", margin: 20 }}
@@ -88,7 +91,10 @@ export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
           color="#fcb649"
           title="My Saved"
           // onPress={() => alert("Navigating to My Saved page..")}
-          onPress={() => {navigation.navigate('SavedMoviesScreen'); setOpen(!open);}}
+          onPress={() => {
+            navigation.navigate("SavedMoviesScreen");
+            setOpen(!open);
+          }}
         />
         <FAB
           style={{ width: "150%", margin: 20 }}
@@ -128,12 +134,20 @@ export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
             //   console.log(`Option ${checked} was selected!`);
             //   toggleGenreDialog();
             // }}
-            onPress={() => {navigation.navigate('BrowsingScreen', {genreSelected: checked});
-            console.log(`${checked} was selected!`);
-            toggleGenreDialog();
-            setOpen(!open);}}
+            onPress={() => {
+              navigation.navigate("BrowsingScreen", { genreSelected: checked });
+              console.log(`${checked} was selected!`);
+              toggleGenreDialog();
+              setOpen(!open);
+            }}
           />
-          <Dialog.Button title="CANCEL" onPress={() => {toggleGenreDialog(); setOpen(!open);}} />
+          <Dialog.Button
+            title="CANCEL"
+            onPress={() => {
+              toggleGenreDialog();
+              setOpen(!open);
+            }}
+          />
         </Dialog.Actions>
       </Dialog>
 
@@ -149,7 +163,7 @@ export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
               setOpen(!open);
               alert("Logging off now...");
               setIsLoggedIn(!isLoggedIn);
-              navigation.navigate('Login');
+              navigation.navigate("Login");
             }}
           />
           <Dialog.Button
@@ -164,7 +178,7 @@ export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
       {/* <TouchableOpacity onPress={() => { this.onSubmit(); this.props.navigation.navigate('NextScreen') }}> */}
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
   menulogo: {
