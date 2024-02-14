@@ -48,7 +48,7 @@ const BrowsingScreen = () => {
   data = CONSTANT['MOCKDATA']
 
   return (
-    <View style={{backgroundColor: '#2A1A1D'}}>
+    <View>
       <DragScreenSelection data={data} />
 
       {/*<Menu /> Sing Hui's */}
