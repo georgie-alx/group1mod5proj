@@ -19,7 +19,6 @@ import Trailer from './Trailer';
 import TickCross from './TickCross';
 import SwipeUpDown from 'react-native-swipe-up-down'
 import * as CONSTANT from './MockData';
-import DragScreenSelection from './DragScreenSelection';
 
 const BrowsingScreen = () => {
   
@@ -50,8 +49,8 @@ const BrowsingScreen = () => {
   return (
     <View style={{backgroundColor: '#2A1A1D'}}>
 
-      <DragScreenSelection />
-      {/* <Swiper showsButton={false} horizontal={true} ref={swiperRef}>
+      
+      <Swiper showsButton={false} horizontal={true} ref={swiperRef}>
         {data.map((item, i) => {
           return(
             <View key={i}>
@@ -69,7 +68,7 @@ const BrowsingScreen = () => {
             </View>
           )
         })}
-      </Swiper> */}
+      </Swiper>
 
       {/*<Menu /> Sing Hui's */}
     </View>

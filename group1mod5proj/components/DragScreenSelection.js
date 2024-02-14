@@ -105,7 +105,7 @@ const DragScreenSelection = ( {data} ) => {
         >
           <Trailer playing={playing} onStateChange={onStateChange} togglePlaying={togglePlaying} id={movie.url}/>
           <Text>{movie.title} ({movie.year})</Text>
-          <TickCross/>
+          <TickCross swipe={(direction) => swipe(direction, index)} />
           <SwipeUpDown 
                 iconSize={30}
                 itemMini={<Text style={styles.text}>Swipe up here to see more movie info</Text>}
