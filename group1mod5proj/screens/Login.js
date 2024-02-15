@@ -6,14 +6,17 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import Button from "../components/Button";
 
+import NaviContext from "../components/context/navigationContext";
+
 const Login = ({ navigation }) => {
+  const { isLoggedIn, setIsLoggedIn } = useContext(NaviContext);
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -150,6 +153,10 @@ const Login = ({ navigation }) => {
           style={{
             marginTop: 18,
             marginBottom: 4,
+          }}
+          onPress={() => {
+            setIsLoggedIn(!isLoggedIn);
+            console.log("Logging in now...");
           }}
         />
 
