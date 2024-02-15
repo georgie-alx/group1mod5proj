@@ -15,11 +15,10 @@ import Button from "../components/Button";
 
 import NaviContext from "../components/context/navigationContext";
 
-const Login = ({ navigation }) => {
+const Signup = ({ navigation }) => {
   const { isLoggedIn, setIsLoggedIn } = useContext(NaviContext);
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -32,7 +31,7 @@ const Login = ({ navigation }) => {
               color: COLORS.secondary,
             }}
           >
-            Hi Welcome Back ! 👋
+            Create Account
           </Text>
 
           <Text
@@ -41,7 +40,7 @@ const Login = ({ navigation }) => {
               color: COLORS.beige,
             }}
           >
-            Hello again you have been missed!
+            Uncover movie magic, one swipe at a time!
           </Text>
         </View>
 
@@ -76,6 +75,55 @@ const Login = ({ navigation }) => {
               keyboardType="email-address"
               style={{
                 width: "100%",
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+              color: COLORS.beige,
+            }}
+          >
+            Mobile Number
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              backgroundColor: COLORS.white,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="+65"
+              placeholderTextColor={COLORS.black}
+              keyboardType="numeric"
+              style={{
+                width: "12%",
+                borderRightWidth: 1,
+                borderLeftColor: COLORS.grey,
+                height: "100%",
+              }}
+            />
+
+            <TextInput
+              placeholder="Enter your phone number"
+              placeholderTextColor={COLORS.grey}
+              keyboardType="numeric"
+              style={{
+                width: "80%",
               }}
             />
           </View>
@@ -144,11 +192,17 @@ const Login = ({ navigation }) => {
             color={isChecked ? COLORS.grey : undefined}
           />
 
-          <Text style={{ color: COLORS.beige }}>Remenber Me</Text>
+          <Text
+            style={{
+              color: COLORS.beige,
+            }}
+          >
+            I agree to the terms and conditions
+          </Text>
         </View>
 
         <Button
-          title="Login"
+          title="Sign Up"
           filled
           style={{
             marginTop: 18,
@@ -156,7 +210,7 @@ const Login = ({ navigation }) => {
           }}
           onPress={() => {
             setIsLoggedIn(!isLoggedIn);
-            console.log("Logging in now...");
+            console.log("Sign up and logging in now...");
           }}
         />
 
@@ -181,7 +235,7 @@ const Login = ({ navigation }) => {
               color: COLORS.beige,
             }}
           >
-            Or Login with
+            Or Sign up with
           </Text>
           <View
             style={{
@@ -264,9 +318,9 @@ const Login = ({ navigation }) => {
           }}
         >
           <Text style={{ fontSize: 16, color: COLORS.beige }}>
-            Don't have an account ?{" "}
+            Already have an account?
           </Text>
-          <Pressable onPress={() => navigation.navigate("Signup")}>
+          <Pressable onPress={() => navigation.navigate("Login")}>
             <Text
               style={{
                 fontSize: 16,
@@ -275,7 +329,7 @@ const Login = ({ navigation }) => {
                 marginLeft: 6,
               }}
             >
-              Register
+              Login
             </Text>
           </Pressable>
         </View>
@@ -284,4 +338,4 @@ const Login = ({ navigation }) => {
   );
 };
 
-export default Login;
+export default Signup;
