@@ -73,7 +73,7 @@ function AppNavi() {
                   options={({ navigation }) => ({
                     headerShown: false, // Hide the navigation header
                   })}
-                /> */}
+                  /> */}
               <Stack.Screen
                 name="BrowsingScreen"
                 component={BrowsingScreen}
