@@ -1,175 +1,333 @@
-import React from 'react';
-import { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-
-// formik for Signup Forms
-import { Formik, validateYupSchema } from 'formik';
-
-// Icons
-import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
-
 import {
-  StyledContainer,
-  InnerContainer,
-  PageLogo,
-  PageTitle,
-  SubTitle,
-  StyledFormArea,
-  LeftIcon,
-  StyledInputLabel,
-  StyledTextInput,
-  RightIcon,
-  Colors,
-  StyledButton,
-  ButtonText,
-  MessageBox,
-  Line,
-  ExtraText,
-  ExtraView,
-  TextLink,
-  TextLinkContent,
-} from './../components/styles';
+  View,
+  Text,
+  Image,
+  Pressable,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import COLORS from "../constants/colors";
+import { Ionicons } from "@expo/vector-icons";
+import Checkbox from "expo-checkbox";
+import Button from "../components/Button";
 
-import { View, TouchableOpacity } from 'react-native';
-
-// Colors
-const { brand, darkLight, primary } = Colors;
-
-// Date time picker
-import DateTimePicker from '@react-native-community/datetimepicker';
-
-const Signup = () => {
-  const [hidePassword, setHidePassword] = useState(true);
-  const [show, setShow] = useState(false);
-  const [date, setDate] = useState(new Date(2000, 0, 1));
-
-  // Actual date of birth to be sent
-  const [dob, setDob] = useState();
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-    setDob(currentDate);
-  };
-
-  const showDatePicker = () => {
-    setShow(true);
-  };
-
+const Signup = ({ navigation }) => {
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   return (
-    <StyledContainer>
-      <StatusBar style="dark" />
-      <InnerContainer>
-        <PageTitle>Movie Tinder</PageTitle>
-        <SubTitle>Account Signup</SubTitle>
-        {show && (
-          <DateTimePicker testID="dateTimePicker" value={date} mode="date" is24Hour={true} onChange={onChange} />
-        )}
-        <Formik
-          initialValues={{ fullName: '', email: '', dateOfBirth: '', password: '', confirmPassword: '' }}
-          onSubmit={(values) => {
-            console.log(values);
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
+      <View style={{ flex: 1, marginHorizontal: 22 }}>
+        <View style={{ marginVertical: 22 }}>
+          <Text
+            style={{
+              fontSize: 22,
+              fontWeight: "bold",
+              marginVertical: 12,
+              color: COLORS.secondary,
+            }}
+          >
+            Create Account
+          </Text>
+
+          <Text
+            style={{
+              fontSize: 16,
+              color: COLORS.beige,
+            }}
+          >
+            Uncover movie magic, one swipe at a time!
+          </Text>
+        </View>
+
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+              color: COLORS.beige,
+            }}
+          >
+            Email address
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              backgroundColor: COLORS.white,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your email address"
+              placeholderTextColor={COLORS.grey}
+              keyboardType="email-address"
+              style={{
+                width: "100%",
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+              color: COLORS.beige,
+            }}
+          >
+            Mobile Number
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              backgroundColor: COLORS.white,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="+65"
+              placeholderTextColor={COLORS.black}
+              keyboardType="numeric"
+              style={{
+                width: "12%",
+                borderRightWidth: 1,
+                borderLeftColor: COLORS.grey,
+                height: "100%",
+              }}
+            />
+
+            <TextInput
+              placeholder="Enter your phone number"
+              placeholderTextColor={COLORS.grey}
+              keyboardType="numeric"
+              style={{
+                width: "80%",
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+              color: COLORS.beige,
+            }}
+          >
+            Password
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              backgroundColor: COLORS.white,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your password"
+              placeholderTextColor={COLORS.grey}
+              secureTextEntry={isPasswordShown}
+              style={{
+                width: "100%",
+              }}
+            />
+
+            <TouchableOpacity
+              onPress={() => setIsPasswordShown(!isPasswordShown)}
+              style={{
+                position: "absolute",
+                right: 12,
+              }}
+            >
+              {isPasswordShown == true ? (
+                <Ionicons name="eye-off" size={24} color={COLORS.black} />
+              ) : (
+                <Ionicons name="eye" size={24} color={COLORS.black} />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginVertical: 6,
           }}
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <StyledFormArea>
-              <MyTextInput
-                label="Full Name"
-                icon="person"
-                placeholder="Your Name"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('fullName')}
-                onBlur={handleBlur('fullName')}
-                value={values.fullName}
-              />
+          <Checkbox
+            style={{ marginRight: 8 }}
+            value={isChecked}
+            onValueChange={setIsChecked}
+            color={isChecked ? COLORS.grey : undefined}
+          />
 
-              <MyTextInput
-                label="Date of Birth"
-                icon="calendar"
-                placeholder="DD - MM - YYYY"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('dateOfBirth')}
-                onBlur={handleBlur('dateOfBirth')}
-                value={dob ? dob.toDateString() : ''}
-                isDate={true}
-                editable={false}
-                showDatePicker={showDatePicker}
-              />
+          <Text
+            style={{
+              color: COLORS.beige,
+            }}
+          >
+            I agree to the terms and conditions
+          </Text>
+        </View>
 
-              <MyTextInput
-                label="Email Address"
-                icon="mail"
-                placeholder="yourname@gmail.com"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-                keyboardType="email-address"
-              />
+        <Button
+          title="Sign Up"
+          filled
+          style={{
+            marginTop: 18,
+            marginBottom: 4,
+          }}
+        />
 
-              <MyTextInput
-                label="Password"
-                icon="lock"
-                placeholder="**********"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                secureTextEntry={hidePassword}
-                isPassword={true}
-                hidePassword={hidePassword}
-                setHidePassword={setHidePassword}
-              />
-              <MyTextInput
-                label="Confirm Password"
-                icon="lock"
-                placeholder="**********"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('confirmPassword')}
-                onBlur={handleBlur('confirmPassword')}
-                value={values.confirmPassword}
-                secureTextEntry={hidePassword}
-                isPassword={true}
-                hidePassword={hidePassword}
-                setHidePassword={setHidePassword}
-              />
-              <MessageBox>...</MessageBox>
-              <StyledButton onPress={handleSubmit}>
-                <ButtonText>Sign Up</ButtonText>
-              </StyledButton>
-              <Line />
-              <ExtraView>
-                <ExtraText>Already have a Movie Tinder account?</ExtraText>
-                <TextLink>Login!</TextLink>
-              </ExtraView>
-            </StyledFormArea>
-          )}
-        </Formik>
-      </InnerContainer>
-    </StyledContainer>
-  );
-};
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginVertical: 20,
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              height: 1,
+              backgroundColor: COLORS.beige,
+              marginHorizontal: 10,
+            }}
+          />
+          <Text
+            style={{
+              fontSize: 14,
+              color: COLORS.beige,
+            }}
+          >
+            Or Sign up with
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              height: 1,
+              backgroundColor: COLORS.beige,
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
 
-const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, isDate, showDatePicker, ...props }) => {
-  return (
-    <View>
-      <leftIcon>
-        <Octicons name={icon} size={30} color={brand}></Octicons>
-      </leftIcon>
-      <StyledInputLabel>{label}</StyledInputLabel>
-      {!isDate && <StyledTextInput {...props} />}
-      {isDate && (
-        <TouchableOpacity onPress={showDatePicker}>
-          <StyledTextInput {...props} />
-        </TouchableOpacity>
-      )}
-      {isPassword && (
-        <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-          <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight} />
-        </RightIcon>
-      )}
-    </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => console.log("Pressed")}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              height: 52,
+              borderWidth: 1,
+              borderColor: COLORS.black,
+              backgroundColor: COLORS.secondary,
+              marginRight: 4,
+              borderRadius: 10,
+            }}
+          >
+            <Image
+              source={require("../assets/facebook.png")}
+              style={{
+                height: 36,
+                width: 36,
+                marginRight: 8,
+              }}
+              resizeMode="contain"
+            />
+
+            <Text>Facebook</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => console.log("Pressed")}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              height: 52,
+              borderWidth: 1,
+              borderColor: COLORS.black,
+              backgroundColor: COLORS.secondary,
+              marginRight: 4,
+              borderRadius: 10,
+            }}
+          >
+            <Image
+              source={require("../assets/google.png")}
+              style={{
+                height: 36,
+                width: 36,
+                marginRight: 8,
+              }}
+              resizeMode="contain"
+            />
+
+            <Text>Google</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginVertical: 22,
+          }}
+        >
+          <Text style={{ fontSize: 16, color: COLORS.beige }}>
+            Already have an account?
+          </Text>
+          <Pressable onPress={() => navigation.navigate("Login")}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: COLORS.secondary,
+                fontWeight: "bold",
+                marginLeft: 6,
+              }}
+            >
+              Login
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
