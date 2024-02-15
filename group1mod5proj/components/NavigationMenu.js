@@ -163,7 +163,7 @@ export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
               setOpen(!open);
               alert("Logging off now...");
               setIsLoggedIn(!isLoggedIn);
-              navigation.navigate("Login");
+              navigation.navigate("Welcome");
             }}
           />
           <Dialog.Button
