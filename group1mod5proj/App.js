@@ -8,9 +8,9 @@ import { SavedMoviesProvider } from "./components/context/savedMovies";
 // Routing
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Login, Signup, Welcome } from "./screens";
 
 import HomeScreen from "./components/HomeScreen";
-import Login from "./screens/Login";
 import SavedMoviesScreen from "./components/SavedMoviesScreen";
 import BrowsingScreen from "./components/BrowsingScreen.js";
 import NavigationMenu from "./components/NavigationMenu";
@@ -30,8 +30,22 @@ export default function App() {
               // Screens for not logged in users
               <Stack.Group>
                 <Stack.Screen
+                  name="Welcome"
+                  component={Welcome}
+                  options={({ navigation }) => ({
+                    headerShown: false, // Hide the navigation header
+                  })}
+                />
+                <Stack.Screen
                   name="Login"
                   component={Login}
+                  options={({ navigation }) => ({
+                    headerShown: false, // Hide the navigation header
+                  })}
+                />
+                <Stack.Screen
+                  name="Signup"
+                  component={Signup}
                   options={({ navigation }) => ({
                     headerShown: false, // Hide the navigation header
                   })}
