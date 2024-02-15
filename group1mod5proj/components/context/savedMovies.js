@@ -13,10 +13,10 @@ export const SavedMoviesProvider = ({ children }) => {
   // State to hold the list of saved movies
   const [savedMovies, setSavedMovies] = useState([]);
 
-  useEffect(() => {
-    // Set saved movies with MOCKDATA when the component mounts
-    setSavedMovies(MOCKDATA);
-  }, []);
+  // useEffect(() => {
+  //   // Set saved movies with MOCKDATA when the component mounts
+  //   setSavedMovies(MOCKDATA);
+  // }, []);
 
   // Function to add a movie to the saved list
   const addMovie = (movie) => {
