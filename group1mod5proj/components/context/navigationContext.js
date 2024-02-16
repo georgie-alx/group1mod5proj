@@ -25,7 +25,7 @@ export const NaviProvider = ({ children }) => {
   };
 
   // Genre selection
-  const [checked, setChecked] = React.useState(["Comedy", "Romance", "Horror"]);
+  const [checked, setChecked] = React.useState(["Sci-Fi", "Romance", "Fantasy"]);
   const handleToggleCheckbox = (index) => {
     if (checked.includes(index)) {
       // Item already checked, remove it from the array
