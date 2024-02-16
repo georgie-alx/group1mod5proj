@@ -11,14 +11,28 @@ Elly's notes 12/2/2024:
 
 
 // BrowsingScreen.js
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import { useRoute } from "@react-navigation/native";
 
 import * as CONSTANT from './MockData';
 import DragScreenSelection from './DragScreenSelection';
 
 const BrowsingScreen = () => {
+
+  // for genre selection
+  const route = useRoute();
+  const genreSelected = route.params?.genreSelected || [];
+  //console.log("BrowsingScreen received these updated genres:", genreSelected);
   
+  const [data, setData] = useState(CONSTANT['MOCKDATA']);
+
+  const filteredData = useMemo(() => {
+    //console.log("filteredData function called")
+    return CONSTANT['MOCKDATA'].filter(movie => genreSelected.includes(movie.genre));
+  }, [genreSelected]);
+
+
   const [ playing, setPlaying ] = useState(false);
   const onStateChange = useCallback((state) => {
       if (state === 'ended'){
@@ -41,11 +55,11 @@ const BrowsingScreen = () => {
     }
   }, []);
 
-  data = CONSTANT['MOCKDATA']
+  //data = CONSTANT['MOCKDATA']
 
   return (
     <View>
-      <DragScreenSelection data={data} />
+      <DragScreenSelection data={filteredData} />
 
       {/*<Menu /> Sing Hui's */}
     </View>

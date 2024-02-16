@@ -130,7 +130,7 @@ const SCREEN_WIDTH = RN.Dimensions.get("window").width;
       {/* Genre Selection dialog */}
       <Dialog isVisible={genreVisible} onBackdropPress={toggleGenreDialog}>
         <Dialog.Title title="Select Genre Preference" />
-        {["Comedy", "Romance", "Horror"].map((l, i) => (
+        {["Sci-Fi", "Romance", "Fantasy"].map((l, i) => (
           <CheckBox
             key={i}
             title={l}

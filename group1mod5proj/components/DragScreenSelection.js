@@ -24,6 +24,11 @@ const DragScreenSelection = ({ data }) => {
   const { addMovie } = useSavedMovies();
   const navigation = useNavigation();
 
+  useEffect(() => {
+    setMovies(data);
+  }, [data]);
+
+
   // Create an animated value for each movie
   const positions = useRef(movies.map(() => new Animated.ValueXY())).current;
 

@@ -79,6 +79,7 @@ function AppNavi() {
               <Stack.Screen
                 name="BrowsingScreen"
                 component={BrowsingScreen}
+                initialParams={{ genreSelected: ["Sci-Fi", "Romance", "Fantasy"] }}
                 // options={{ headerShown: false }}
                 options={({ navigation }) => ({
                   headerShown: false, // Hide the navigation header
