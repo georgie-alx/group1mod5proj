@@ -1,24 +1,23 @@
-/*
-- get video to play -anu
-- styling (colour and alignment) - elly
-- link tick and cross buttons to handler - elly - done!
-*/
-
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { StyleSheet, View, Text, Animated, PanResponder, Dimensions } from 'react-native';
 import { useSavedMovies } from "./context/savedMovies";
 import Trailer from './Trailer';
 import SwipeUpDown from 'react-native-swipe-up-down'
 import Synopsis from './Synopsis';
 import TickCross from './TickCross';
+import { useNavigation } from '@react-navigation/native';
+
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SWIPE_THRESHOLD = 0.5 * SCREEN_WIDTH;
 
-const DragScreenSelection = ( {data} ) => {
+const DragScreenSelection = ({ data }) => {
   const [movies, setMovies] = useState(data);
+  const [completedMovies, setCompletedMovies] = useState(0); // State to track completed movies
   const { addMovie } = useSavedMovies();
+  const navigation = useNavigation();
+
 
   // Create an animated value for each movie
   const positions = useRef(movies.map(() => new Animated.ValueXY())).current;
@@ -53,14 +52,18 @@ const DragScreenSelection = ( {data} ) => {
       duration: 250,
       useNativeDriver: false,
     }).start(() => {
+      setCompletedMovies(0);
       if (direction === 'right') {
         // Save the movie
         console.log('Saved:', movies[index].title);
-        addMovie(movies[index]);
-
+         addMovie(movies[index]);
+        setCompletedMovies(prevCount => prevCount + 1); // Increment completed movies count
+       // setSavedMovies(prevMovies => [...prevMovies, movies[index]]); // Update local state with saved movie
       } else {
         // Reject the movie
         console.log('Rejected:', movies[index].title);
+        setCompletedMovies(prevCount => prevCount + 1); // Increment completed movies count
+        // setSavedMovies(prevMovies => [...prevMovies, movies[index]]); // Update local state with saved movie
       }
       // Remove the movie from the list
       setMovies((prevMovies) => prevMovies.filter((_, movieIndex) => movieIndex !== index));
@@ -75,17 +78,26 @@ const DragScreenSelection = ( {data} ) => {
   };
 
   // for Trailer
-  const [ playing, setPlaying ] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const onStateChange = useCallback((state) => {
-      if (state === 'ended'){
-          console.log('setting playing to false')
-          setPlaying(false);
-      }
+    if (state === 'ended') {
+      console.log('setting playing to false')
+      setPlaying(false);
+    }
   }, [])
   const togglePlaying = useCallback(() => {
-      console.log('toggle playing')
-      setPlaying((prev) => !prev);
+    console.log('toggle playing')
+    setPlaying((prev) => !prev);
   }, []);
+
+  useEffect(() => {
+    // Check if all movies are completed
+    if (completedMovies > (movies.length)) {
+      console.log("All movies completed");
+      // Handle logic for all movies completed
+      navigation.navigate('EndScreen', { message: "You've reach the end of our movie list!" });
+    }
+  }, [completedMovies, movies.length, navigation]);
 
   const renderMovies = () => {
     return movies.map((movie, index) => {
@@ -108,21 +120,21 @@ const DragScreenSelection = ( {data} ) => {
           ]}
           {...panResponders[index].panHandlers}
         >
-          <Trailer playing={playing} onStateChange={onStateChange} togglePlaying={togglePlaying} id={movie.url}/>
+          <Trailer playing={playing} onStateChange={onStateChange} togglePlaying={togglePlaying} id={movie.url} />
           <Text style={styles.title}>{movie.title} ({movie.year})</Text>
           <TickCross swipe={(direction) => swipe(direction, index)} />
           <SwipeUpDown
-                swipeHeight={100} 
-                iconSize={30}
-                itemMini={<Text style={styles.miniItem}>▲ MORE</Text>}
-                itemFull={<Synopsis genre={movie.genre} plot={movie.plot} cast={movie.cast}/>}
-              />
+            swipeHeight={100}
+            iconSize={30}
+            itemMini={<Text style={styles.miniItem}>▲ MORE</Text>}
+            itemFull={<Synopsis genre={movie.genre} plot={movie.plot} cast={movie.cast} />}
+          />
         </Animated.View>
       );
     });
   };
 
-  if(movies.length === 0) {
+  if (movies.length === 0) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>No more movies to show</Text>
@@ -130,7 +142,9 @@ const DragScreenSelection = ( {data} ) => {
     );
   }
 
-  return <View style={styles.container}>{renderMovies()}</View>;
+  return <View style={styles.container}>
+    {renderMovies()}
+  </View>;
 };
 
 const styles = StyleSheet.create({
@@ -163,3 +177,4 @@ const styles = StyleSheet.create({
 });
 
 export default DragScreenSelection;
+

@@ -14,6 +14,7 @@ import HomeScreen from "./components/HomeScreen";
 import SavedMoviesScreen from "./components/SavedMoviesScreen";
 import BrowsingScreen from "./components/BrowsingScreen.js";
 import NavigationMenu from "./components/NavigationMenu";
+import EndScreen from "./components/EndScreen";
 
 const Stack = createStackNavigator();
 
@@ -80,6 +81,11 @@ export default function App() {
                   name="BrowsingScreen"
                   component={BrowsingScreen}
                   // options={{ headerShown: false }}
+                  options={({ navigation }) => ({
+                    headerShown: false, // Hide the navigation header
+                  })}
+                />
+                <Stack.Screen name="EndScreen" component={EndScreen}
                   options={({ navigation }) => ({
                     headerShown: false, // Hide the navigation header
                   })}
