@@ -1,5 +1,5 @@
 import { Text, View, Image, StyleSheet } from "react-native";
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 // import MenuLogo from "../assets/Movie_Tinder.svg";
 import RN from "react-native";
 
@@ -7,33 +7,50 @@ import { SpeedDial, Dialog, CheckBox } from "@rneui/themed";
 import { FAB } from "@rneui/base";
 
 import { useNavigation } from "@react-navigation/native";
+import NaviContext from "./context/navigationContext";
 
 const SCREEN_HEIGHT = RN.Dimensions.get("window").height;
 const SCREEN_WIDTH = RN.Dimensions.get("window").width;
 
-export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
+// export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
+  export default function NavigationMenu() {
   const navigation = useNavigation();
-  const [open, setOpen] = React.useState(false);
-  const [logoffVisible, setLogoffVisible] = React.useState(false);
-  const [genreVisible, setGenreVisible] = React.useState(false);
-  const toggleLogoffDialog = () => {
-    setLogoffVisible(!logoffVisible);
-  };
-  const toggleGenreDialog = () => {
-    setGenreVisible(!genreVisible);
-  };
+  const {
+    setIsLoggedIn,
+    isLoggedIn,
+    open,
+    setOpen,
+    logoffVisible,
+    setLogoffVisible,
+    genreVisible,
+    setGenreVisible,
+    toggleLogoffDialog,
+    toggleGenreDialog,
+    checked,
+    setChecked,
+    handleToggleCheckbox,} = useContext(NaviContext);
 
-  // Genre selection
-  const [checked, setChecked] = React.useState(["Comedy", "Romance", "Horror"]);
-  const handleToggleCheckbox = (index) => {
-    if (checked.includes(index)) {
-      // Item already checked, remove it from the array
-      setChecked(checked.filter((item) => item !== index));
-    } else {
-      // Item not checked, add it to the array
-      setChecked([...checked, index]);
-    }
-  };
+  // const [open, setOpen] = React.useState(false);
+  // const [logoffVisible, setLogoffVisible] = React.useState(false);
+  // const [genreVisible, setGenreVisible] = React.useState(false);
+  // const toggleLogoffDialog = () => {
+  //   setLogoffVisible(!logoffVisible);
+  // };
+  // const toggleGenreDialog = () => {
+  //   setGenreVisible(!genreVisible);
+  // };
+
+  // // Genre selection
+  // const [checked, setChecked] = React.useState(["Comedy", "Romance", "Horror"]);
+  // const handleToggleCheckbox = (index) => {
+  //   if (checked.includes(index)) {
+  //     // Item already checked, remove it from the array
+  //     setChecked(checked.filter((item) => item !== index));
+  //   } else {
+  //     // Item not checked, add it to the array
+  //     setChecked([...checked, index]);
+  //   }
+  // };
 
   return (
     <>
@@ -161,7 +178,8 @@ export default function NavigationMenu({ isLoggedIn, setIsLoggedIn }) {
             onPress={() => {
               setLogoffVisible(!logoffVisible);
               setOpen(!open);
-              alert("Logging off now...");
+              console.log("Logging off now...");
+              // alert("Logging off now...");
               setIsLoggedIn(!isLoggedIn);
               navigation.navigate("Welcome");
             }}
