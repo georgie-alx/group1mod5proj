@@ -23,7 +23,7 @@ const BrowsingScreen = () => {
   // for genre selection
   const route = useRoute();
   const genreSelected = route.params?.genreSelected || [];
-  console.log("BrowsingScreen received these updated genres:", genreSelected);
+  //console.log("BrowsingScreen received these updated genres:", genreSelected);
   
   const [data, setData] = useState(CONSTANT['MOCKDATA']);
 
