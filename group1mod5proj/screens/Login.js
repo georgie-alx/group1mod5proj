@@ -144,7 +144,7 @@ const Login = ({ navigation }) => {
             color={isChecked ? COLORS.grey : undefined}
           />
 
-          <Text style={{ color: COLORS.beige }}>Remenber Me</Text>
+          <Text style={{ color: COLORS.beige }}>Remember Me</Text>
         </View>
 
         <Button
