@@ -13,8 +13,7 @@ import {
 import { useSavedMovies } from "./context/savedMovies";
 import { Ionicons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
-// import { WebView } from "react-native-webview";
-// import YoutubePlayer from "react-native-youtube-iframe";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -26,46 +25,19 @@ const extractVideoId = (url) => {
 };
 
 const MovieDetailsModal = ({ visible, movie, onClose }) => {
-  const getImageSource = (url) => {
-    const videoId = extractVideoId(url);
-    return { uri: `https://img.youtube.com/vi/${videoId}/0.jpg` };
-  };
-
   if (!movie) {
     // If movie is null, return null or some other placeholder component
     return null;
   }
 
-  // const [playing, setPlaying] = useState(false);
-
-  // const onPlayStateChange = useCallback((state) => {
-  //   if (state === "ended") {
-  //     setPlaying(false);
-  //   }
-  // }, []);
-
-  // const togglePlaying = useCallback(() => {
-  //   setPlaying((prev) => !prev);
-  // }, []);
-
-  // const renderwebview = () => {
-  //   if (playing) {
-  //     return (
-  //       <WebView
-  //         style={styles.styleCode}
-  //         javaScriptEnabled={true}
-  //         domStorageEnabled={true}
-  //         source={extractVideoId(movie.url)}
-  //       />
-  //     );
-  //   } else {
-  //     return (
-  //       <TouchableOpacity onPress={() => setPlaying(true)}>
-  //         <Image source={getImageSource(movie.url)} style={styles.modalImage} />
-  //       </TouchableOpacity>
-  //     );
-  //   }
-  // };
+  //for YoutubePlayer
+  const [playing, setPlaying] = useState(false);
+  const onStateChange = useCallback((state) => {
+    if (state === "ended") {
+      console.log("setting playing to false");
+      setPlaying(false);
+    }
+  }, []);
 
   return (
     <Modal visible={visible} animationType="slide">
@@ -76,18 +48,13 @@ const MovieDetailsModal = ({ visible, movie, onClose }) => {
             { minHeight: windowHeight, backgroundColor: "#FEE9C6" },
           ]}
         >
-          {/* {renderwebview()} */}
-          {/* <View>
-            <YoutubePlayer
-              height={300}
-              play={playing}
-              videoId={extractVideoId(movie.url)}
-              onChangeState={onPlayStateChange}
-            />
-          </View> */}
-          {/* <Button title={playing ? "pause" : "play"} onPress={togglePlaying} /> */}
-          <Image source={getImageSource(movie.url)} style={styles.modalImage} />
-
+          <YoutubePlayer
+            height={230}
+            width={350}
+            play={playing}
+            videoId={movie.url.replace("https://www.youtube.com/watch?v=", "")}
+            onChangeState={onStateChange}
+          />
           <Text style={styles.modalHeading}>{movie.title}</Text>
           <View style={styles.details}>
             <Text style={styles.detail}>
@@ -228,6 +195,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    paddingTop: 80,
     backgroundColor: "#FEE9C6",
   },
   modalImage: {
@@ -241,13 +209,16 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     marginBottom: 20,
-    marginTop: 50,
     textAlign: "center",
     color: "#2A1A1D",
+  },
+  YoutubePlayer: {
+    marginTop: 40,
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
   },
 });
 
 export default SavedMoviesScreen;
-
-
-

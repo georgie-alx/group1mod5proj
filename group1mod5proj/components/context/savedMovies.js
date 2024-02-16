@@ -20,9 +20,9 @@ export const SavedMoviesProvider = ({ children }) => {
 
   // Function to add a movie to the saved list
   const addMovie = (movie) => {
-   // setSavedMovies([...savedMovies, movie]);
-   setSavedMovies(prevSavedMovies => [...prevSavedMovies, movie]);
-    console.log('addMovie:', savedMovies);
+    // setSavedMovies([...savedMovies, movie]);
+    setSavedMovies((prevSavedMovies) => [...prevSavedMovies, movie]);
+    // console.log('addMovie:', savedMovies);
   };
 
   // Function to delete a movie from the saved list
